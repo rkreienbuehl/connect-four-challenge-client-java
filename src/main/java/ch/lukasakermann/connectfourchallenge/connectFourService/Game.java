@@ -9,7 +9,7 @@ import java.util.List;
 public class Game {
 
     private final String winner;
-    private final boolean finished;
+    public   boolean finished;
     private final String currentPlayerId;
     private final List<Player> players;
     private final ArrayList<ArrayList<String>> board;

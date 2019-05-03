@@ -14,7 +14,7 @@ public class LWRStrategy implements ConnectFourStrategy {
 
 
     private static final String EMPTY_CELL = "EMPTY";
-    private final int MAX_DEPTH = 2;
+    private final int MAX_DEPTH = 5;
     private final int MAX_STONES = 21;
 
     @Override
@@ -155,27 +155,75 @@ public class LWRStrategy implements ConnectFourStrategy {
 
 
     private Boolean checkAndSetPosition(Game game, ArrayList<ArrayList<String>> board, int column, String color) {
-
-        System.out.println("in check");
-
-        int row = 0;
         boolean posi = false;
 
-        while (row < 6 && board.get(row).get(column).equals(EMPTY_CELL)) {
+        if (!game.isFinished()) {
 
-            posi = true;
+            int row = 0;
 
-            board.get(row).set(column, color);
+            while (row < 6 && board.get(row).get(column).equals(EMPTY_CELL)) {
 
-            if (row != 0) {
-                board.get(row - 1).set(column, EMPTY_CELL);
+                posi = true;
+
+                board.get(row).set(column, color);
+
+                if (row != 0) {
+                    board.get(row - 1).set(column, EMPTY_CELL);
+                }
+
+                row++;
             }
-
-            row++;
         }
 
+        if (areFourConnected(color, board)) game.finished = true;
 
         return posi;
+    }
+
+    private boolean areFourConnected(String color, ArrayList<ArrayList<String>> board) {
+        // horizontalCheck
+        for (int row = 0; row < board.size() - 3; row++) {
+            for (int column = 0; column < board.get(0).size(); column++) {
+                if (board.get(row).get(column).equals(color)
+                        && board.get(row + 1).get(column).equals(color)
+                        && board.get(row + 2).get(column).equals(color)
+                        && board.get(row + 3).get(column).equals(color)) {
+                    return true;
+                }
+            }
+        }
+        // verticalCheck
+        for (int row = 0; row < board.size(); row++) {
+            for (int column = 0; column < board.get(0).size() - 3; column++) {
+                if (board.get(row).get(column).equals(color)
+                        && board.get(row).get(column + 1).equals(color)
+                        && board.get(row).get(column + 2).equals(color)
+                        && board.get(row).get(column + 3).equals(color)) {
+                    return true;
+                }
+            }
+        }
+        // ascendingDiagonalCheck
+        for (int row = 3; row < board.size(); row++) {
+            for (int column = 0; column < board.get(0).size() - 3; column++) {
+                if (board.get(row).get(column).equals(color)
+                        && board.get(row - 1).get(column + 1).equals(color)
+                        && board.get(row - 2).get(column + 2).equals(color)
+                        && board.get(row - 3).get(column + 3).equals(color))
+                    return true;
+            }
+        }
+        // descendingDiagonalCheck
+        for (int row = 3; row < board.size(); row++) {
+            for (int column = 3; column < board.get(0).size(); column++) {
+                if (board.get(row).get(column).equals(color)
+                        && board.get(row - 1).get(column - 1).equals(color)
+                        && board.get(row - 2).get(column - 2).equals(color)
+                        && board.get(row - 3).get(column - 3).equals(color))
+                    return true;
+            }
+        }
+        return false;
     }
 
 }
