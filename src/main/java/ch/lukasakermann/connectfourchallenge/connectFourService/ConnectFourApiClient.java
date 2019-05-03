@@ -7,7 +7,7 @@ import feign.RequestLine;
 
 import java.util.UUID;
 
-public interface ConnectFourApiClient {
+public interface  ConnectFourApiClient {
 
     @RequestLine("POST /api/v1/players/join")
     @Headers("Content-Type: application/json")
