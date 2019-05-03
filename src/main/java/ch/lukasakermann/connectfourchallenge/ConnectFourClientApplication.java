@@ -18,7 +18,7 @@ public class ConnectFourClientApplication {
         ConnectFourAdapter connectFourAdapter = new ConnectFourAdapter(SERVER_URL);
         ExecutorService executor = Executors.newFixedThreadPool(2);
         executor.submit(new GameRunner(connectFourAdapter, "Lichtwellenreiter", new LWRStrategy(), NUMBER_OF_GAMES));
-        // executor.submit(new GameRunner(connectFourAdapter, "Bob", new RandomStrategy(), NUMBER_OF_GAMES));
-        executor.submit(new GameRunner(connectFourAdapter, "Bob", new LWRStrategy(), NUMBER_OF_GAMES));
+        executor.submit(new GameRunner(connectFourAdapter, "Bob", new RandomStrategy(), NUMBER_OF_GAMES));
+        // executor.submit(new GameRunner(connectFourAdapter, "Bob", new LWRStrategy(), NUMBER_OF_GAMES));
     }
 }

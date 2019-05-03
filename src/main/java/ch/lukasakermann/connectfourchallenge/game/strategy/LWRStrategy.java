@@ -63,7 +63,7 @@ public class LWRStrategy implements ConnectFourStrategy {
         if (game.isFinished()) {
 
 
-            int[] zero = {};
+            int[] zero = {-1, 100000};
             return zero;
         }
 
@@ -79,13 +79,15 @@ public class LWRStrategy implements ConnectFourStrategy {
             // Collections.copy(newBoard, game.getBoard());
             // System.out.println("copy");
 
+            System.out.println("max: " + game.getBoard());
+
 
             Game intern = new Game(game.getWinner(), game.getCurrentPlayerId(), game.isFinished(), game.getPlayers(), newBoard);
 
             if (checkAndSetPosition(intern, newBoard, i, myColor(game))) {
 
                 if (depth >= 0) {
-                    int[] nextMove = min(game, depth - 1, alpha, beta);
+                    int[] nextMove = min(intern, depth - 1, alpha, beta);
 
                     if (maximum[0] == -1 || nextMove[1] > maximum[1]) {
                         maximum[0] = i;
@@ -114,7 +116,7 @@ public class LWRStrategy implements ConnectFourStrategy {
         System.out.println(game.isFinished());
 
         if (game.isFinished()) {
-            int[] zero = {};
+            int[] zero = {-1, 100000};
             return zero;
         }
 
@@ -126,12 +128,14 @@ public class LWRStrategy implements ConnectFourStrategy {
             // ArrayList<ArrayList<String>> newBoard = new ArrayList<>();
             // Collections.copy(newBoard, game.getBoard());
 
+            System.out.println("min: " + game.getBoard());
+
             Game intern = new Game(game.getWinner(), game.getCurrentPlayerId(), game.isFinished(), game.getPlayers(), newBoard);
 
             if (checkAndSetPosition(intern, newBoard, i, otherColor(game))) {
 
                 if (depth >= 0) {
-                    int[] nextMove = max(game, depth - 1, alpha, beta);
+                    int[] nextMove = max(intern, depth - 1, alpha, beta);
 
                     if (minimum[0] == -1 || nextMove[1] < minimum[1]) {
 
@@ -174,6 +178,8 @@ public class LWRStrategy implements ConnectFourStrategy {
                 row++;
             }
         }
+
+        System.out.println("Check: " + board);
 
         if (areFourConnected(color, board)) game.finished = true;
 
