@@ -9,6 +9,8 @@ import java.util.stream.IntStream;
 
 public class LWRStrategy implements ConnectFourStrategy {
     private static final String EMPTY_CELL = "EMPTY";
+    private final int MAX_DEPTH = 5;
+    private final int MAX_STONES = 21;
 
     @Override
     public int dropDisc(Game game) {
@@ -21,5 +23,22 @@ public class LWRStrategy implements ConnectFourStrategy {
 
         Random rand = new Random();
         return validMoves.get(rand.nextInt(validMoves.size()));
+    }
+
+    /**
+     * @param game
+     * @param depth
+     * @param playerA
+     * @param playerB
+     */
+    private void max(Game game, int depth, int playerA, int playerB) {
+
+        if (game.isFinished()) { return; }
+
+    }
+
+
+    private void min(Game game, int depth, int playerA, int playerB) {
+
     }
 }
