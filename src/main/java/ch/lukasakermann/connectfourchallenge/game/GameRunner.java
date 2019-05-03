@@ -66,6 +66,8 @@ public class GameRunner implements Runnable {
             LOGGER.info("Games are finished: {}, won {}, draw {}, duration {}s", playerId, gamesWon, gamesDraw, durationInSeconds);
         } catch (InterruptedException e) {
             LOGGER.error("Games are interrupted: {}", e);
+        } catch (Exception e) {
+            LOGGER.error("Games are interrupted: {}", e);
         }
     }
 }
