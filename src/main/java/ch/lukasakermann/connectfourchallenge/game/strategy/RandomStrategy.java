@@ -2,6 +2,7 @@ package ch.lukasakermann.connectfourchallenge.game.strategy;
 
 import ch.lukasakermann.connectfourchallenge.connectFourService.Game;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -13,7 +14,7 @@ public class RandomStrategy implements ConnectFourStrategy {
 
     @Override
     public int dropDisc(Game game) {
-        List<List<String>> board = game.getBoard();
+        ArrayList<ArrayList<String>> board = game.getBoard();
         List<String> columns = board.get(0);
         List<Integer> validMoves = IntStream.range(0, columns.size())
                 .boxed()

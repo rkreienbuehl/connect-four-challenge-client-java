@@ -2,6 +2,7 @@ package ch.lukasakermann.connectfourchallenge.game.strategy;
 
 import ch.lukasakermann.connectfourchallenge.connectFourService.Game;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -73,21 +74,15 @@ public class LWRStrategy implements ConnectFourStrategy {
         for (int i = 0; i < game.getBoard().get(0).size(); i++) {
             System.out.println(i);
 
-            List<List<String>> newBoard = new ArrayList<List<String>>();
-            Collections.copy(newBoard, game.getBoard());
+            ArrayList<ArrayList<String>> newBoard = (ArrayList<ArrayList<String>>) game.getBoard().clone();
+            // System.out.println("new List");
+            // Collections.copy(newBoard, game.getBoard());
+            // System.out.println("copy");
 
 
             Game intern = new Game(game.getWinner(), game.getCurrentPlayerId(), game.isFinished(), game.getPlayers(), newBoard);
 
-            List<String> columns = newBoard.get(0);
-
             if (checkAndSetPosition(intern, newBoard, i, myColor(game))) {
-
-
-                List<Integer> validMoves = IntStream.range(0, columns.size())
-                        .boxed()
-                        .filter(column -> columns.get(column).equals(EMPTY_CELL))
-                        .collect(Collectors.toList());
 
                 if (depth >= 0) {
                     int[] nextMove = min(game, depth - 1, alpha, beta);
@@ -127,19 +122,13 @@ public class LWRStrategy implements ConnectFourStrategy {
 
         for (int i = 0; i < game.getBoard().get(0).size(); i++) {
 
-            List<List<String>> newBoard = new ArrayList<List<String>>();
-            Collections.copy(newBoard, game.getBoard());
+            ArrayList<ArrayList<String>> newBoard = (ArrayList<ArrayList<String>>) game.getBoard().clone();
+            // ArrayList<ArrayList<String>> newBoard = new ArrayList<>();
+            // Collections.copy(newBoard, game.getBoard());
 
             Game intern = new Game(game.getWinner(), game.getCurrentPlayerId(), game.isFinished(), game.getPlayers(), newBoard);
-            List<String> columns = newBoard.get(0);
 
             if (checkAndSetPosition(intern, newBoard, i, otherColor(game))) {
-
-
-                List<Integer> validMoves = IntStream.range(0, columns.size())
-                        .boxed()
-                        .filter(column -> columns.get(column).equals(EMPTY_CELL))
-                        .collect(Collectors.toList());
 
                 if (depth >= 0) {
                     int[] nextMove = max(game, depth - 1, alpha, beta);
@@ -159,19 +148,20 @@ public class LWRStrategy implements ConnectFourStrategy {
 
             }
 
-
         }
 
         return minimum;
     }
 
 
-    private Boolean checkAndSetPosition(Game game, List<List<String>> board, int column, String color) {
+    private Boolean checkAndSetPosition(Game game, ArrayList<ArrayList<String>> board, int column, String color) {
+
+        System.out.println("in check");
 
         int row = 0;
         boolean posi = false;
 
-        while (board.get(row).get(column).equals(EMPTY_CELL)) {
+        while (row < 6 && board.get(row).get(column).equals(EMPTY_CELL)) {
 
             posi = true;
 
